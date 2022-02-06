@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,12 +14,14 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
 
 import LocationDataContext from "../contexts/LocationDataContext";
 
 export default function NavBar() {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const locationData = useContext(LocationDataContext);
+    const history = useHistory();
 
     const navMenu = (
         <Box
@@ -31,13 +34,18 @@ export default function NavBar() {
         >
             <List>
                 <ListItem>
-                    <Typography variant="h6">Catch the Bus SG</Typography>
+                    <Typography variant="h6">Car Park When</Typography>
                 </ListItem>
-                <ListItem button>
+                <ListItem
+                    button
+                    onClick={() => {
+                        history.push("/dashboard");
+                    }}
+                >
                     <ListItemIcon>
-                        <InboxIcon />
+                        <EqualizerIcon />
                     </ListItemIcon>
-                    <ListItemText primary={"Inbox"} />
+                    <ListItemText primary={"Dashboard"} />
                 </ListItem>
             </List>
             <Divider />
@@ -60,16 +68,6 @@ export default function NavBar() {
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            sx={{ mr: 2 }}
-                            onClick={() => setDrawerOpen(true)}
-                        >
-                            <MenuIcon />
-                        </IconButton>
                         <Typography
                             variant="h6"
                             component="div"
@@ -77,11 +75,20 @@ export default function NavBar() {
                         >
                             Car Park When
                         </Typography>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={() => setDrawerOpen(true)}
+                        >
+                            <MenuIcon />
+                        </IconButton>
                     </Toolbar>
                 </AppBar>
             </Box>
             <Drawer
-                anchor={"left"}
+                anchor={"right"}
                 open={drawerOpen}
                 onClose={() => setDrawerOpen(false)}
             >
