@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import Container from "@mui/material/Container";
 import { createTheme } from "@mui/material/styles";
@@ -10,10 +10,10 @@ import { ThemeProvider } from "@emotion/react";
 // my pages, components, etc.
 import LandingPage from "./pages/LandingPage";
 import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
-import StaticDataContext from "./contexts/StaticDataContext";
 
 const theme = createTheme({
     palette: {
@@ -23,12 +23,15 @@ const theme = createTheme({
 });
 
 function App() {
+    const [signedInFlag, setSignedInFlag] = useState(false);
+    const [tokens, setTokens] = useState({ access: "initstate" });
+
     useEffect(() => {
         console.log("a use effect");
     }, []);
 
     return (
-        // <StaticDataContext.Provider value={staticData}>
+        // <AuthContext.Provider value={tokens}>
         <ThemeProvider theme={theme}>
             <NavBar />
             <Container maxWidth="lg" sx={{ padding: 0 }}>
@@ -39,11 +42,11 @@ function App() {
                     <Route path="/signup/">
                         <SignUp />
                     </Route>
-                    {/* <Route path="/signin/"> */}
-                    {/* <SignIn /> */}
-                    {/* </Route> */}
+                    <Route path="/signin/">
+                        <SignIn tokens={tokens} setTokens={setTokens} />
+                    </Route>
                     <Route path="/dashboard/">
-                        <Dashboard />
+                        <Dashboard tokens={tokens} />
                     </Route>
                     {/* <Route path="/profile/"> */}
                     {/* <Profile /> */}
@@ -52,7 +55,7 @@ function App() {
             </Container>
             <Footer />
         </ThemeProvider>
-        // </StaticDataContext.Provider>
+        // </AuthContext.Provider>
     );
 }
 
