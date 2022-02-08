@@ -14,6 +14,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MailIcon from "@mui/icons-material/Mail";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
+import LoginIcon from "@mui/icons-material/Login";
 
 import LocationDataContext from "../contexts/LocationDataContext";
 
@@ -35,6 +36,19 @@ export default function NavBar() {
                 <ListItem>
                     <Typography variant="h6">Car Park When</Typography>
                 </ListItem>
+
+                <ListItem
+                    button
+                    onClick={() => {
+                        history.push("/signin");
+                    }}
+                >
+                    <ListItemIcon>
+                        <LoginIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={"Sign In"} />
+                </ListItem>
+
                 <ListItem
                     button
                     onClick={() => {

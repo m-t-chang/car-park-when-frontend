@@ -24,7 +24,10 @@ const theme = createTheme({
 
 function App() {
     const [signedInFlag, setSignedInFlag] = useState(false);
-    const [tokens, setTokens] = useState({ access: "initstate" });
+    const [tokens, setTokens] = useState({
+        access: "INITALSTATE",
+        refresh: "INITIALSTATE",
+    });
 
     useEffect(() => {
         console.log("a use effect");
