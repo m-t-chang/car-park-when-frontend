@@ -20,7 +20,6 @@ const SignIn = (props) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                username: "mtchang",
                 email: emailInput,
                 password: pwInput,
             }),
