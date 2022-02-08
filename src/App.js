@@ -24,6 +24,7 @@ const theme = createTheme({
 
 function App() {
     const [signedInFlag, setSignedInFlag] = useState(false);
+    const [user, setUser] = useState({ email: "" });
     const [tokens, setTokens] = useState({
         access: "INITALSTATE",
         refresh: "INITIALSTATE",
@@ -36,7 +37,7 @@ function App() {
     return (
         // <AuthContext.Provider value={tokens}>
         <ThemeProvider theme={theme}>
-            <NavBar />
+            <NavBar signedInFlag={signedInFlag} user={user} />
             <Container maxWidth="lg" sx={{ padding: 0 }}>
                 <Switch>
                     <Route exact path="/">
@@ -46,10 +47,18 @@ function App() {
                         <SignUp />
                     </Route>
                     <Route path="/signin/">
-                        <SignIn tokens={tokens} setTokens={setTokens} />
+                        <SignIn
+                            tokens={tokens}
+                            setTokens={setTokens}
+                            setSignedInFlag={setSignedInFlag}
+                            setUser={setUser}
+                        />
                     </Route>
                     <Route path="/dashboard/">
-                        <Dashboard tokens={tokens} />
+                        <Dashboard
+                            signedInFlag={signedInFlag}
+                            tokens={tokens}
+                        />
                     </Route>
                     {/* <Route path="/profile/"> */}
                     {/* <Profile /> */}

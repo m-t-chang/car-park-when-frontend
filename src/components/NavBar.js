@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -15,13 +16,47 @@ import ListItemText from "@mui/material/ListItemText";
 import MailIcon from "@mui/icons-material/Mail";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import LocationDataContext from "../contexts/LocationDataContext";
 
-export default function NavBar() {
+export default function NavBar(props) {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const locationData = useContext(LocationDataContext);
     const history = useHistory();
+
+    const signInOrOut = props.signedInFlag ? (
+        <>
+            <ListItem>
+                <ListItemText primary={`Signed in as ${props.user.email}`} />
+            </ListItem>
+            <ListItem
+                button
+                onClick={() => {
+                    history.push("/signin");
+                }}
+            >
+                <ListItemIcon>
+                    <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Log Out"} />
+            </ListItem>
+        </>
+    ) : (
+        <>
+            <ListItem
+                button
+                onClick={() => {
+                    history.push("/signin");
+                }}
+            >
+                <ListItemIcon>
+                    <LoginIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Sign In"} />
+            </ListItem>
+        </>
+    );
 
     const navMenu = (
         <Box
@@ -37,17 +72,8 @@ export default function NavBar() {
                     <Typography variant="h6">Car Park When</Typography>
                 </ListItem>
 
-                <ListItem
-                    button
-                    onClick={() => {
-                        history.push("/signin");
-                    }}
-                >
-                    <ListItemIcon>
-                        <LoginIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={"Sign In"} />
-                </ListItem>
+                {signInOrOut}
+                <Divider />
 
                 <ListItem
                     button
@@ -60,19 +86,13 @@ export default function NavBar() {
                     </ListItemIcon>
                     <ListItemText primary={"Dashboard"} />
                 </ListItem>
-            </List>
-            <Divider />
-            <List>
-                <ListItem button>
-                    <ListItemIcon>
-                        <MailIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={"Spam"} />
+
+                <Divider />
+
+                <ListItem>
+                    <ListItemText>Github Link</ListItemText>
                 </ListItem>
             </List>
-            Github Link
-            <br />
-            Location: {JSON.stringify(locationData)}
         </Box>
     );
 
@@ -86,8 +106,17 @@ export default function NavBar() {
                             component="div"
                             sx={{ flexGrow: 1 }}
                         >
-                            Car Park When
+                            <Link
+                                to="/"
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
+                            >
+                                Car Park When
+                            </Link>
                         </Typography>
+
                         <IconButton
                             size="large"
                             edge="start"

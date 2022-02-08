@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import TextField from "@mui/material/TextField";
@@ -30,6 +30,8 @@ const SignIn = (props) => {
         if (response.status === 200) {
             console.log("Log in success");
             props.setTokens(myJson);
+            props.setSignedInFlag(true);
+            props.setUser({ email: emailInput });
             history.push("/dashboard");
         } else {
             console.log("Error with logging in. Response: ", myJson);

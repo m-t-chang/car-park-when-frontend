@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Dashboard = (props) => {
-    const [authStatus, setAuthStatus] = useState("initial_state");
+    // const [authStatus, setAuthStatus] = useState("initial_state");
     const [data, setData] = useState({});
+    const [dashboard, setDashboard] = useState(
+        <div>
+            Please <Link to="/signin">sign in</Link> to view data
+        </div>
+    );
 
     useEffect(() => {
         async function getData() {
@@ -20,28 +26,39 @@ const Dashboard = (props) => {
             console.log("got response:", myJson);
 
             if (myJson.code === "token_not_valid") {
-                setAuthStatus("sign_in_failed");
+                // setAuthStatus("sign_in_failed");
+                console.log(
+                    "UNEXPECTED ERROR: user should be logged in but app was denied access to API"
+                );
             } else {
-                setAuthStatus("signed_in");
+                // setAuthStatus("signed_in");
                 setData(myJson);
+
+                setDashboard(
+                    <>
+                        {JSON.stringify(myJson[0])}
+                        <ul>
+                            <li>{myJson[0].development}</li>
+                            <li>{myJson[0].location_lat}</li>
+                            <li>{myJson[0].location_lon}</li>
+                        </ul>
+                    </>
+                );
             }
         }
 
-        getData();
+        if (props.signedInFlag) {
+            getData();
+        }
 
         console.log("a use effect");
-    }, [props.tokens]);
+    }, [props]);
 
     return (
         <div>
             Data Dashboard... {JSON.stringify(props.tokens)}
-            <h2>{authStatus}</h2>
-            {JSON.stringify(data[0])}
-            <ul>
-                <li>{data[0].development}</li>
-                <li>{data[0].location_lat}</li>
-                <li>{data[0].location_lon}</li>
-            </ul>
+            {/* <h2>{authStatus}</h2> */}
+            {dashboard}
         </div>
     );
 };
