@@ -149,24 +149,24 @@ const Dashboard = (props) => {
     return (
         <div>
             <h1>Data Dashboard</h1>
-            {props.signedInFlag || (
+            {props.signedInFlag ? (
+                <>
+                    <button onClick={getUserLocation}>Locate Me</button>
+                    <CarparkMap
+                        userLocation={locationData}
+                        carparkData={data}
+                        handleMarkerClick={({ e, a, payload }) => {
+                            setCarparkSelection(payload.id);
+                        }}
+                    />
+                    <h3>{carparkSelection}</h3>
+                    {chartData && <Line data={chartData} />}{" "}
+                </>
+            ) : (
                 <div>
                     Please <Link to="/signin">sign in</Link> to view data
                 </div>
             )}
-            {/* {carparkList} */}
-
-            <button onClick={getUserLocation}>Locate Me</button>
-            <CarparkMap
-                userLocation={locationData}
-                carparkData={data}
-                handleMarkerClick={({ e, a, payload }) => {
-                    setCarparkSelection(payload.id);
-                }}
-            />
-
-            <h3>{carparkSelection}</h3>
-            {chartData && <Line data={chartData} />}
         </div>
     );
 };
