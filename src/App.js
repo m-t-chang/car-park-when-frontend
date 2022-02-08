@@ -30,9 +30,7 @@ function App() {
         refresh: "INITIALSTATE",
     });
 
-    useEffect(() => {
-        console.log("a use effect");
-    }, []);
+    useEffect(() => {}, []);
 
     return (
         // <AuthContext.Provider value={tokens}>

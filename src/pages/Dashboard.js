@@ -10,14 +10,34 @@ import {
     Title,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+
+import CarparkMap from "../components/CarparkMap";
+
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Title);
 
 const Dashboard = (props) => {
-    const [data, setData] = useState({});
-    const [carparkSelection, setCarparkSelection] = useState("");
+    const [data, setData] = useState(null);
+    const [carparkSelection, setCarparkSelection] = useState(null);
     const [dataCarparkDetail, setDataCarparkDetail] = useState({});
     const [chartData, setChartData] = useState(false);
     const [carparkList, setCarparkList] = useState("");
+    const [locationData, setLocationData] = useState([1.3521, 103.8198]); // this is [lat,lon]
+
+    // callback to get user geolocation
+    function getUserLocation() {
+        console.log("Fetching user geolocation...");
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                setLocationData([
+                    position.coords.latitude,
+                    position.coords.longitude,
+                ]);
+            },
+            (error) => {
+                console.log("Error when trying to get geolocation:", error);
+            }
+        );
+    }
 
     useEffect(() => {
         async function getData() {
@@ -35,12 +55,10 @@ const Dashboard = (props) => {
             console.log("got response:", myJson);
 
             if (myJson.code === "token_not_valid") {
-                // setAuthStatus("sign_in_failed");
                 console.log(
                     "UNEXPECTED ERROR: user should be logged in but app was denied access to API"
                 );
             } else {
-                // setAuthStatus("signed_in");
                 setData(myJson);
 
                 setCarparkList(
@@ -52,19 +70,13 @@ const Dashboard = (props) => {
                                     <button
                                         value={elem.id}
                                         onClick={(e) => {
-                                            console.log(e.target);
-                                            setCarparkSelection(
-                                                e.target.innerText
-                                            );
+                                            setCarparkSelection(e.target.value);
                                         }}
                                     >
                                         {elem.id}
                                     </button>
                                 </li>
                             ))}
-                            <li>{myJson[0].development}</li>
-                            <li>{myJson[0].location_lat}</li>
-                            <li>{myJson[0].location_lon}</li>
                         </ul>
                     </>
                 );
@@ -74,8 +86,6 @@ const Dashboard = (props) => {
         if (props.signedInFlag) {
             getData();
         }
-
-        console.log("a use effect");
     }, [props]);
 
     useEffect(() => {
@@ -116,7 +126,7 @@ const Dashboard = (props) => {
             }
         }
 
-        if (props.signedInFlag) {
+        if (props.signedInFlag && carparkSelection) {
             getCarparkDetail();
         }
     }, [props, carparkSelection]);
@@ -144,7 +154,18 @@ const Dashboard = (props) => {
                     Please <Link to="/signin">sign in</Link> to view data
                 </div>
             )}
-            {carparkList}
+            {/* {carparkList} */}
+
+            <button onClick={getUserLocation}>Locate Me</button>
+            <CarparkMap
+                userLocation={locationData}
+                carparkData={data}
+                handleMarkerClick={({ e, a, payload }) => {
+                    setCarparkSelection(payload.id);
+                }}
+            />
+
+            <h3>{carparkSelection}</h3>
             {chartData && <Line data={chartData} />}
         </div>
     );
