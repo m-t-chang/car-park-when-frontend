@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -7,19 +8,44 @@ const SignUp = () => {
     const [emailInput, setEmailInput] = useState("");
     const [pwInput, setPwInput] = useState("");
     const [pwConfInput, setPwConfInput] = useState("");
+    const [validationMessage, setValidationMessage] = useState("");
+    const history = useHistory();
 
     // Callback for the submit button
     // this will send a POST request and try to create a new account
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         // validate inputs
         if (pwInput !== pwConfInput) {
-            console.log("Passwords must match");
+            setValidationMessage("Passwords must match");
             return;
+        }
+        if (
+            !emailInput.includes("@") ||
+            emailInput.includes(" ") ||
+            !emailInput.includes(".")
+        ) {
+            setValidationMessage("Enter a valid email");
         }
 
         // send the POST request to backend
-        const body = { email: emailInput, password: pwInput };
-        console.log(body);
+        const response = await fetch(`http://127.0.0.1:8000/api/user/signup/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: emailInput,
+                password: pwInput,
+            }),
+        });
+        const myJson = await response.json();
+
+        if (myJson.status === "success") {
+            // redirect user
+            history.push("/signin");
+        } else {
+            setValidationMessage(myJson.message);
+        }
     }
 
     return (
@@ -58,6 +84,7 @@ const SignUp = () => {
             <Button variant="contained" onClick={handleSubmit}>
                 Submit
             </Button>
+            {validationMessage}
         </div>
     );
 };
