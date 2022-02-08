@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import {
+    Chart as ChartJS,
+    LineElement,
+    PointElement,
+    LinearScale,
+    CategoryScale,
+    Title,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Title);
+
 const Dashboard = (props) => {
-    // const [authStatus, setAuthStatus] = useState("initial_state");
     const [data, setData] = useState({});
     const [carparkSelection, setCarparkSelection] = useState("");
     const [dataCarparkDetail, setDataCarparkDetail] = useState({});
-    const [dashboard, setDashboard] = useState(
-        <div>
-            Please <Link to="/signin">sign in</Link> to view data
-        </div>
-    );
+    const [chartData, setChartData] = useState(false);
+    const [carparkList, setCarparkList] = useState("");
 
     useEffect(() => {
         async function getData() {
@@ -36,7 +43,7 @@ const Dashboard = (props) => {
                 // setAuthStatus("signed_in");
                 setData(myJson);
 
-                setDashboard(
+                setCarparkList(
                     <>
                         {JSON.stringify(myJson[0])}
                         <ul>
@@ -93,6 +100,19 @@ const Dashboard = (props) => {
                 );
             } else {
                 setDataCarparkDetail(myJson);
+
+                const labels = myJson.timestamp;
+                setChartData({
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: "My First dataset",
+                            backgroundColor: "rgb(255, 99, 132)",
+                            borderColor: "rgb(255, 99, 132)",
+                            data: myJson.available_lots,
+                        },
+                    ],
+                });
             }
         }
 
@@ -101,12 +121,31 @@ const Dashboard = (props) => {
         }
     }, [props, carparkSelection]);
 
+    useEffect(() => {
+        const labels = ["January", "February", "March", "April", "May", "June"];
+        setChartData({
+            labels: labels,
+            datasets: [
+                {
+                    label: "My First dataset",
+                    backgroundColor: "rgb(255, 99, 132)",
+                    borderColor: "rgb(255, 99, 132)",
+                    data: [0, 10, 5, 2, 20, 30, 45],
+                },
+            ],
+        });
+    }, []);
+
     return (
         <div>
-            Data Dashboard... {JSON.stringify(props.tokens)}
-            {/* <h2>{authStatus}</h2> */}
-            {dashboard}
-            {JSON.stringify(dataCarparkDetail)}
+            <h1>Data Dashboard</h1>
+            {props.signedInFlag || (
+                <div>
+                    Please <Link to="/signin">sign in</Link> to view data
+                </div>
+            )}
+            {carparkList}
+            {chartData && <Line data={chartData} />}
         </div>
     );
 };
