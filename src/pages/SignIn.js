@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import TextField from "@mui/material/TextField";
@@ -36,6 +36,13 @@ const SignIn = (props) => {
             console.log("Error with logging in. Response: ", myJson);
         }
     }
+
+    useEffect(() => {
+        console.log(props.signedInFlag);
+        if (props.signedInFlag) {
+            history.push("/dashboard");
+        }
+    });
 
     return (
         <div>

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
@@ -13,22 +13,30 @@ import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 
-import LocationDataContext from "../contexts/LocationDataContext";
-
 export default function NavBar(props) {
     const [drawerOpen, setDrawerOpen] = useState(false);
-    const locationData = useContext(LocationDataContext);
     const history = useHistory();
 
     const signInOrOut = props.signedInFlag ? (
         <>
             <ListItem>
                 <ListItemText primary={`Signed in as ${props.user.email}`} />
+            </ListItem>
+            <ListItem
+                button
+                onClick={() => {
+                    history.push("/profile");
+                }}
+            >
+                <ListItemIcon>
+                    <AccountCircleIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Profile"} />
             </ListItem>
             <ListItem
                 button

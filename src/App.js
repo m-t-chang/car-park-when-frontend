@@ -12,6 +12,7 @@ import LandingPage from "./pages/LandingPage";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
+import UserProfile from "./pages/UserProfile";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 
@@ -48,6 +49,7 @@ function App() {
                         <SignIn
                             tokens={tokens}
                             setTokens={setTokens}
+                            signedInFlag={signedInFlag}
                             setSignedInFlag={setSignedInFlag}
                             setUser={setUser}
                         />
@@ -58,9 +60,13 @@ function App() {
                             tokens={tokens}
                         />
                     </Route>
-                    {/* <Route path="/profile/"> */}
-                    {/* <Profile /> */}
-                    {/* </Route> */}
+                    <Route path="/profile/">
+                        <UserProfile
+                            signedInFlag={signedInFlag}
+                            tokens={tokens}
+                            user={user}
+                        />
+                    </Route>
                 </Switch>
             </Container>
             <Footer />
