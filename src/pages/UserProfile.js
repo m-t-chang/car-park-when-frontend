@@ -37,7 +37,7 @@ const UserProfile = (props) => {
             }
         }
         getUserData();
-    }, [props]);
+    }, [props, history]);
 
     function handleDeleteAccount() {
         console.log("placeholder for delete account");
@@ -46,7 +46,12 @@ const UserProfile = (props) => {
     return (
         <div>
             <h1>User Profile</h1>
-            <p>Email: {props.user.email}</p>
+            <p>Email: {userData.email}</p>
+            <p>Name: {userData.name}</p>
+            <p>Surname: {userData.surname}</p>
+            <p>Last Login: {userData.last_login}</p>
+            <p>Date Joined: {userData.date_joined}</p>
+            <p>Subscriber? {userData.is_subscriber ? "Yes" : "No"}</p>
             <Button variant="outlined" onClick={handleDeleteAccount}>
                 Delete Account
             </Button>
