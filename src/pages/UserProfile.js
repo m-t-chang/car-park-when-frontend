@@ -12,35 +12,33 @@ const UserProfile = (props) => {
     const [formSurname, setFormSurname] = useState("");
     const history = useHistory();
 
+    // call the API to pull user data
+    async function getUserData() {
+        const response = await fetch(`http://127.0.0.1:8000/api/user/info/`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${props.tokens?.access}`,
+            },
+        });
+        const myJson = await response.json();
+        console.log("got response:", myJson);
+
+        if (myJson.code === "token_not_valid") {
+            console.log(
+                "UNEXPECTED ERROR: user should be logged in but app was denied access to API"
+            );
+        } else {
+            setUserData(myJson);
+        }
+    }
+
     useEffect(() => {
         // redirect to sign in, if not signed in
         if (!props.signedInFlag) {
             history.push("/signin");
         }
 
-        // call the API to pull user data
-        async function getUserData() {
-            const response = await fetch(
-                `http://127.0.0.1:8000/api/user/info/`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${props.tokens?.access}`,
-                    },
-                }
-            );
-            const myJson = await response.json();
-            console.log("got response:", myJson);
-
-            if (myJson.code === "token_not_valid") {
-                console.log(
-                    "UNEXPECTED ERROR: user should be logged in but app was denied access to API"
-                );
-            } else {
-                setUserData(myJson);
-            }
-        }
         getUserData();
     }, [props, history]);
 
@@ -52,12 +50,36 @@ const UserProfile = (props) => {
     }
 
     function handleSubmitEdit() {
-        const requestBody = {
-            email: formEmail,
-            name: formName,
-            surname: formSurname,
-        };
-        console.log(requestBody);
+        async function submitEdits() {
+            const response = await fetch(
+                `http://127.0.0.1:8000/api/user/info/`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${props.tokens?.access}`,
+                    },
+                    body: JSON.stringify({
+                        email: formEmail,
+                        name: formName,
+                        surname: formSurname,
+                    }),
+                }
+            );
+            const myJson = await response.json();
+            console.log("got response:", myJson);
+
+            if (myJson.code === "token_not_valid") {
+                console.log(
+                    "UNEXPECTED ERROR: user should be logged in but app was denied access to API"
+                );
+            } else {
+                console.log("Updated user, response:", myJson);
+                getUserData(); // refresh the page
+            }
+        }
+
+        submitEdits();
     }
 
     function handleDeleteAccount() {
