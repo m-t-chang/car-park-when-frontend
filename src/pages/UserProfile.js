@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
 const UserProfile = (props) => {
     const [userData, setUserData] = useState({});
+    const [formEmail, setFormEmail] = useState("");
+    const [formName, setFormName] = useState("");
+    const [formSurname, setFormSurname] = useState("");
     const history = useHistory();
 
     useEffect(() => {
@@ -38,6 +43,22 @@ const UserProfile = (props) => {
         }
         getUserData();
     }, [props, history]);
+
+    function handleEditAccount() {
+        // fill in default values for form
+        setFormEmail(userData.email);
+        setFormName(userData.name);
+        setFormSurname(userData.surname);
+    }
+
+    function handleSubmitEdit() {
+        const requestBody = {
+            email: formEmail,
+            name: formName,
+            surname: formSurname,
+        };
+        console.log(requestBody);
+    }
 
     function handleDeleteAccount() {
         async function deleteUser() {
@@ -83,9 +104,46 @@ const UserProfile = (props) => {
             <p>Last Login: {userData.last_login}</p>
             <p>Date Joined: {userData.date_joined}</p>
             <p>Subscriber? {userData.is_subscriber ? "Yes" : "No"}</p>
-            <Button variant="outlined" onClick={handleDeleteAccount}>
-                Delete Account
-            </Button>
+
+            <div>
+                <Button variant="outlined" onClick={handleEditAccount}>
+                    Edit Info
+                </Button>
+                <Button variant="text" onClick={handleDeleteAccount}>
+                    Delete Account
+                </Button>
+            </div>
+
+            <Box>
+                <TextField
+                    type="email"
+                    label="Email address"
+                    helperText="This will change the email you use to sign in."
+                    value={formEmail}
+                    onChange={(e) => {
+                        setFormEmail(e.target.value);
+                    }}
+                />
+                <TextField
+                    type="text"
+                    label="Name"
+                    value={formName}
+                    onChange={(e) => {
+                        setFormName(e.target.value);
+                    }}
+                />
+                <TextField
+                    type="email"
+                    label="Surname"
+                    value={formSurname}
+                    onChange={(e) => {
+                        setFormSurname(e.target.value);
+                    }}
+                />
+                <Button variant="contained" onClick={handleSubmitEdit}>
+                    Save Changes
+                </Button>
+            </Box>
         </div>
     );
 };
