@@ -10,7 +10,6 @@ const LandingPage = (props) => {
     return (
         <div
             style={{
-                backgroundColor: "red",
                 backgroundImage: `url("/hdb_carpark.jpeg")`,
                 backgroundSize: "cover",
                 padding: "5rem 8rem",
