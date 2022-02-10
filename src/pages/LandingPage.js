@@ -2,14 +2,28 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
 
 const LandingPage = (props) => {
     const history = useHistory();
 
     return (
-        <div>
-            <section>
-                <h1>Availability Data for Singapore's Car Parks</h1>
+        <div
+            style={{
+                backgroundColor: "red",
+                backgroundImage: `url("/hdb_carpark.jpeg")`,
+                backgroundSize: "cover",
+                padding: "5rem 8rem",
+            }}
+        >
+            <Paper
+                sx={{
+                    backgroundColor: "rgba(255,255,255,0.8)",
+                    padding: "0.5rem 2rem 2rem 2rem",
+                    borderRadius: "1rem",
+                }}
+            >
+                <h1>Carpark Data for Informed Drivers</h1>
                 <p>
                     Will there by any parking spots when you arrive at your
                     destination? When is your favorite carpark the most busy?
@@ -29,7 +43,7 @@ const LandingPage = (props) => {
                 >
                     Sign In
                 </Button>
-            </section>
+            </Paper>
         </div>
     );
 };

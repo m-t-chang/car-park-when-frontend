@@ -50,7 +50,7 @@ const SignIn = (props) => {
     });
 
     return (
-        <div>
+        <div style={{ textAlign: "center" }}>
             <h1>Existing User? Sign In</h1>
             <div>
                 <TextField
@@ -62,7 +62,10 @@ const SignIn = (props) => {
                     onChange={(e) => {
                         setEmailInput(e.target.value);
                     }}
+                    margin="normal"
+                    sx={{ width: "30ch" }}
                 />
+                <br />
                 <TextField
                     type="password"
                     id="pw"
@@ -72,7 +75,10 @@ const SignIn = (props) => {
                     onChange={(e) => {
                         setPwInput(e.target.value);
                     }}
+                    margin="normal"
+                    sx={{ width: "30ch" }}
                 />
+                <br />
                 <Button variant="contained" onClick={handleSubmit}>
                     Sign In
                 </Button>

@@ -96,11 +96,11 @@ export default function NavBar(props) {
                     <ListItemText primary={"Dashboard"} />
                 </ListItem>
 
-                <Divider />
+                {/* <Divider />
 
                 <ListItem>
                     <ListItemText>Github Link</ListItemText>
-                </ListItem>
+                </ListItem> */}
             </List>
         </Box>
     );

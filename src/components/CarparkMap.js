@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Map, Marker, ZoomControl, Overlay } from "pigeon-maps";
+import Button from "@mui/material/Button";
 
 const singaporeLocation = [1.3521, 103.8198];
 
@@ -28,8 +29,15 @@ const CarparkMap = (props) => {
     }
 
     return (
-        <div>
-            <button onClick={centerMapOnUser}>Move Map to My Location</button>
+        <div style={{ position: "static" }}>
+            <Button
+                sx={{ position: "absolute", right: "1.5rem", top: "7rem" }}
+                variant="outlined"
+                onClick={centerMapOnUser}
+            >
+                Move Map to My Location
+            </Button>
+
             <Map
                 height={400}
                 center={center}
