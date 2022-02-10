@@ -15,6 +15,7 @@ const SignIn = (props) => {
     // upon success, then store the Token
     // if fail, then display an error
     async function handleSubmit(e) {
+        console.log("Sending request...");
         const response = await fetch(
             `${process.env.REACT_APP_BACKEND_URI}/api/token/`,
             {

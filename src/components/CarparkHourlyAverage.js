@@ -50,7 +50,7 @@ const CarparkHourlyAverage = (props) => {
 
             datasets: [
                 {
-                    label: "Dataset 1",
+                    label: "Available Lots",
                     data: arrayOf24Hours,
                     backgroundColor: "rgba(0, 99, 132, 0.9)",
                 },
@@ -60,8 +60,9 @@ const CarparkHourlyAverage = (props) => {
 
     useEffect(() => {
         async function getCarparkHourlyAvgData() {
+            console.log("Sending request...");
             const response = await fetch(
-                `${process.env.REACT_APP_BACKEND_URI}/api/carpark-hourly-avg/${props.carparkSelection}/`,
+                `${process.env.REACT_APP_BACKEND_URI}/api/carpark-hourly-avg/${props.carparkSelection?.id}/`,
                 {
                     method: "GET",
                     headers: {

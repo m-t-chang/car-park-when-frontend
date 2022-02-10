@@ -29,6 +29,7 @@ const SignUp = () => {
         }
 
         // send the POST request to backend
+        console.log("Sending request...");
         const response = await fetch(
             `${process.env.REACT_APP_BACKEND_URI}/api/user/signup/`,
             {

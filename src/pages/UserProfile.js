@@ -21,6 +21,7 @@ const UserProfile = (props) => {
 
         // call the API to pull user data
         async function getUserData() {
+            console.log("Sending request...");
             const response = await fetch(
                 `${process.env.REACT_APP_BACKEND_URI}/api/user/info/`,
                 {
@@ -56,6 +57,7 @@ const UserProfile = (props) => {
 
     function handleSubmitEdit() {
         async function submitEdits() {
+            console.log("Sending request...");
             const response = await fetch(
                 `${process.env.REACT_APP_BACKEND_URI}/api/user/info/`,
                 {
@@ -90,6 +92,7 @@ const UserProfile = (props) => {
 
     function handleDeleteAccount() {
         async function deleteUser() {
+            console.log("Sending request...");
             const response = await fetch(
                 `${process.env.REACT_APP_BACKEND_URI}/api/user/info/`,
                 {
