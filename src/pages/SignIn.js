@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 const SignIn = (props) => {
     const [emailInput, setEmailInput] = useState("");
     const [pwInput, setPwInput] = useState("");
+    const [message, setMessage] = useState("");
     const history = useHistory();
 
     // Callback for the submit button
@@ -34,6 +35,7 @@ const SignIn = (props) => {
             history.push("/dashboard");
         } else {
             console.log("Error with logging in. Response: ", myJson);
+            setMessage(myJson.detail);
         }
     }
 
@@ -47,29 +49,32 @@ const SignIn = (props) => {
     return (
         <div>
             <h1>Existing User? Sign In</h1>
-            <TextField
-                type="email"
-                id="email"
-                label="Email"
-                variant="outlined"
-                value={emailInput}
-                onChange={(e) => {
-                    setEmailInput(e.target.value);
-                }}
-            />
-            <TextField
-                type="password"
-                id="pw"
-                label="Password"
-                variant="outlined"
-                value={pwInput}
-                onChange={(e) => {
-                    setPwInput(e.target.value);
-                }}
-            />
-            <Button variant="contained" onClick={handleSubmit}>
-                Sign In
-            </Button>
+            <div>
+                <TextField
+                    type="email"
+                    id="email"
+                    label="Email"
+                    variant="outlined"
+                    value={emailInput}
+                    onChange={(e) => {
+                        setEmailInput(e.target.value);
+                    }}
+                />
+                <TextField
+                    type="password"
+                    id="pw"
+                    label="Password"
+                    variant="outlined"
+                    value={pwInput}
+                    onChange={(e) => {
+                        setPwInput(e.target.value);
+                    }}
+                />
+                <Button variant="contained" onClick={handleSubmit}>
+                    Sign In
+                </Button>
+                <p style={{ color: "red" }}>{message}</p>
+            </div>
         </div>
     );
 };
