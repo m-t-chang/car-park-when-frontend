@@ -43,7 +43,6 @@ const SignIn = (props) => {
     }
 
     useEffect(() => {
-        console.log(props.signedInFlag);
         if (props.signedInFlag) {
             history.push("/dashboard");
         }
