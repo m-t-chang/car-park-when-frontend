@@ -14,6 +14,9 @@ const CarparkMap = (props) => {
             height={400}
             center={center}
             zoom={zoom}
+            minZoom={11}
+            maxZoom={16}
+            animate={false}
             onBoundsChanged={({ center, zoom }) => {
                 setCenter(center);
                 setZoom(zoom);
