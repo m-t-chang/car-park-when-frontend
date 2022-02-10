@@ -40,7 +40,29 @@ const UserProfile = (props) => {
     }, [props, history]);
 
     function handleDeleteAccount() {
-        console.log("placeholder for delete account");
+        async function deleteUser() {
+            const response = await fetch(
+                `http://127.0.0.1:8000/api/user/info/`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${props.tokens?.access}`,
+                    },
+                }
+            );
+            const myJson = await response.json();
+            console.log("got response:", myJson);
+
+            if (myJson.code === "token_not_valid") {
+                console.log(
+                    "UNEXPECTED ERROR: user should be logged in but app was denied access to API"
+                );
+            } else {
+                console.log("Delete user response:", myJson);
+            }
+        }
+        deleteUser();
     }
 
     return (
