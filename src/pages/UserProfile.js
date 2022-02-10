@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 
 const UserProfile = (props) => {
     const [userData, setUserData] = useState({});
+    const [showEditForm, setShowEditForm] = useState(false);
     const [formEmail, setFormEmail] = useState("");
     const [formName, setFormName] = useState("");
     const [formSurname, setFormSurname] = useState("");
@@ -43,6 +44,7 @@ const UserProfile = (props) => {
     }, [props, history]);
 
     function handleEditAccount() {
+        setShowEditForm(true);
         // fill in default values for form
         setFormEmail(userData.email);
         setFormName(userData.name);
@@ -75,7 +77,8 @@ const UserProfile = (props) => {
                 );
             } else {
                 console.log("Updated user, response:", myJson);
-                getUserData(); // refresh the page
+                getUserData(); // refresh the displayed data
+                setShowEditForm(false);
             }
         }
 
@@ -136,36 +139,43 @@ const UserProfile = (props) => {
                 </Button>
             </div>
 
-            <Box>
-                <TextField
-                    type="email"
-                    label="Email address"
-                    helperText="This will change the email you use to sign in."
-                    value={formEmail}
-                    onChange={(e) => {
-                        setFormEmail(e.target.value);
-                    }}
-                />
-                <TextField
-                    type="text"
-                    label="Name"
-                    value={formName}
-                    onChange={(e) => {
-                        setFormName(e.target.value);
-                    }}
-                />
-                <TextField
-                    type="email"
-                    label="Surname"
-                    value={formSurname}
-                    onChange={(e) => {
-                        setFormSurname(e.target.value);
-                    }}
-                />
-                <Button variant="contained" onClick={handleSubmitEdit}>
-                    Save Changes
-                </Button>
-            </Box>
+            {showEditForm ? (
+                <Box>
+                    <TextField
+                        type="email"
+                        label="Email address"
+                        helperText="This will change the email you use to sign in."
+                        value={formEmail}
+                        onChange={(e) => {
+                            setFormEmail(e.target.value);
+                        }}
+                    />
+                    <br />
+                    <TextField
+                        type="text"
+                        label="Name"
+                        value={formName}
+                        onChange={(e) => {
+                            setFormName(e.target.value);
+                        }}
+                    />
+                    <br />
+                    <TextField
+                        type="email"
+                        label="Surname"
+                        value={formSurname}
+                        onChange={(e) => {
+                            setFormSurname(e.target.value);
+                        }}
+                    />
+                    <br />
+                    <Button variant="contained" onClick={handleSubmitEdit}>
+                        Save Changes
+                    </Button>
+                </Box>
+            ) : (
+                <></>
+            )}
         </div>
     );
 };
