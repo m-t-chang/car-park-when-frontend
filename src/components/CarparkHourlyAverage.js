@@ -61,7 +61,7 @@ const CarparkHourlyAverage = (props) => {
     useEffect(() => {
         async function getCarparkHourlyAvgData() {
             const response = await fetch(
-                `http://localhost:8000/api/carpark-hourly-avg/${props.carparkSelection}/`,
+                `${process.env.REACT_APP_BACKEND_URI}/api/carpark-hourly-avg/${props.carparkSelection}/`,
                 {
                     method: "GET",
                     headers: {

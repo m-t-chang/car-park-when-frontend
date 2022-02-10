@@ -13,35 +13,38 @@ const UserProfile = (props) => {
     const [formSurname, setFormSurname] = useState("");
     const history = useHistory();
 
-    // call the API to pull user data
-    async function getUserData() {
-        const response = await fetch(`http://127.0.0.1:8000/api/user/info/`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${props.tokens?.access}`,
-            },
-        });
-        const myJson = await response.json();
-        console.log("got response:", myJson);
-
-        if (myJson.code === "token_not_valid") {
-            console.log(
-                "UNEXPECTED ERROR: user should be logged in but app was denied access to API"
-            );
-        } else {
-            setUserData(myJson);
-        }
-    }
-
     useEffect(() => {
         // redirect to sign in, if not signed in
         if (!props.signedInFlag) {
             history.push("/signin");
         }
 
+        // call the API to pull user data
+        async function getUserData() {
+            const response = await fetch(
+                `${process.env.REACT_APP_BACKEND_URI}/api/user/info/`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${props.tokens?.access}`,
+                    },
+                }
+            );
+            const myJson = await response.json();
+            console.log("got response:", myJson);
+
+            if (myJson.code === "token_not_valid") {
+                console.log(
+                    "UNEXPECTED ERROR: user should be logged in but app was denied access to API"
+                );
+            } else {
+                setUserData(myJson);
+            }
+        }
+
         getUserData();
-    }, [props, history]);
+    }, [props, history, showEditForm]);
 
     function handleEditAccount() {
         setShowEditForm(true);
@@ -54,7 +57,7 @@ const UserProfile = (props) => {
     function handleSubmitEdit() {
         async function submitEdits() {
             const response = await fetch(
-                `http://127.0.0.1:8000/api/user/info/`,
+                `${process.env.REACT_APP_BACKEND_URI}/api/user/info/`,
                 {
                     method: "PUT",
                     headers: {
@@ -77,7 +80,7 @@ const UserProfile = (props) => {
                 );
             } else {
                 console.log("Updated user, response:", myJson);
-                getUserData(); // refresh the displayed data
+                // getUserData(); // refresh the displayed data
                 setShowEditForm(false);
             }
         }
@@ -88,7 +91,7 @@ const UserProfile = (props) => {
     function handleDeleteAccount() {
         async function deleteUser() {
             const response = await fetch(
-                `http://127.0.0.1:8000/api/user/info/`,
+                `${process.env.REACT_APP_BACKEND_URI}/api/user/info/`,
                 {
                     method: "DELETE",
                     headers: {

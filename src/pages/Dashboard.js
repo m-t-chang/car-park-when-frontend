@@ -29,9 +29,9 @@ ChartJS.register(
 const Dashboard = (props) => {
     const [data, setData] = useState(null);
     const [carparkSelection, setCarparkSelection] = useState(null);
-    const [dataCarparkDetail, setDataCarparkDetail] = useState({});
+    // const [dataCarparkDetail, setDataCarparkDetail] = useState({});
     const [chartData, setChartData] = useState(false);
-    const [carparkList, setCarparkList] = useState("");
+    // const [carparkList, setCarparkList] = useState("");
 
     const [locationData, setLocationData] = useState([1.3521, 103.8198]); // this is [lat,lon]
 
@@ -54,7 +54,7 @@ const Dashboard = (props) => {
     useEffect(() => {
         async function getData() {
             const response = await fetch(
-                `http://127.0.0.1:8000/api/carpark-list/`,
+                `${process.env.REACT_APP_BACKEND_URI}/api/carpark-list/`,
                 {
                     method: "GET",
                     headers: {
@@ -73,25 +73,25 @@ const Dashboard = (props) => {
             } else {
                 setData(myJson);
 
-                setCarparkList(
-                    <>
-                        {JSON.stringify(myJson[0])}
-                        <ul>
-                            {myJson.map((elem) => (
-                                <li key={elem.id}>
-                                    <button
-                                        value={elem.id}
-                                        onClick={(e) => {
-                                            setCarparkSelection(e.target.value);
-                                        }}
-                                    >
-                                        {elem.id}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </>
-                );
+                // setCarparkList(
+                //     <>
+                //         {JSON.stringify(myJson[0])}
+                //         <ul>
+                //             {myJson.map((elem) => (
+                //                 <li key={elem.id}>
+                //                     <button
+                //                         value={elem.id}
+                //                         onClick={(e) => {
+                //                             setCarparkSelection(e.target.value);
+                //                         }}
+                //                     >
+                //                         {elem.id}
+                //                     </button>
+                //                 </li>
+                //             ))}
+                //         </ul>
+                //     </>
+                // );
             }
         }
 
@@ -103,7 +103,7 @@ const Dashboard = (props) => {
     useEffect(() => {
         async function getCarparkDetail() {
             const response = await fetch(
-                `http://localhost:8000/api/carpark-detail/${carparkSelection}/`,
+                `${process.env.REACT_APP_BACKEND_URI}/api/carpark-detail/${carparkSelection}/`,
                 {
                     method: "GET",
                     headers: {
@@ -121,7 +121,7 @@ const Dashboard = (props) => {
                     "UNEXPECTED ERROR: user should be logged in but app was denied access to API"
                 );
             } else {
-                setDataCarparkDetail(myJson);
+                // setDataCarparkDetail(myJson);
 
                 const labels = myJson.timestamp;
                 setChartData({

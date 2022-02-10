@@ -15,16 +15,19 @@ const SignIn = (props) => {
     // upon success, then store the Token
     // if fail, then display an error
     async function handleSubmit(e) {
-        const response = await fetch(`http://127.0.0.1:8000/api/token/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: emailInput,
-                password: pwInput,
-            }),
-        });
+        const response = await fetch(
+            `${process.env.REACT_APP_BACKEND_URI}/api/token/`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: emailInput,
+                    password: pwInput,
+                }),
+            }
+        );
         const myJson = await response.json();
 
         if (response.status === 200) {
