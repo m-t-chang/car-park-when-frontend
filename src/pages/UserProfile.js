@@ -4,6 +4,13 @@ import { useHistory } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
 const UserProfile = (props) => {
     const [userData, setUserData] = useState({});
@@ -21,6 +28,7 @@ const UserProfile = (props) => {
 
         // call the API to pull user data
         async function getUserData() {
+            console.log("Sending request...");
             const response = await fetch(
                 `${process.env.REACT_APP_BACKEND_URI}/api/user/info/`,
                 {
@@ -56,6 +64,7 @@ const UserProfile = (props) => {
 
     function handleSubmitEdit() {
         async function submitEdits() {
+            console.log("Sending request...");
             const response = await fetch(
                 `${process.env.REACT_APP_BACKEND_URI}/api/user/info/`,
                 {
@@ -90,6 +99,7 @@ const UserProfile = (props) => {
 
     function handleDeleteAccount() {
         async function deleteUser() {
+            console.log("Sending request...");
             const response = await fetch(
                 `${process.env.REACT_APP_BACKEND_URI}/api/user/info/`,
                 {
@@ -123,27 +133,73 @@ const UserProfile = (props) => {
         }
     }
 
+    function createData(name, calories, fat, carbs, protein) {
+        return { name, calories, fat, carbs, protein };
+    }
+
+    const rows = [
+        createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+        createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+        createData("Eclair", 262, 16.0, 24, 6.0),
+        createData("Cupcake", 305, 3.7, 67, 4.3),
+        createData("Gingerbread", 356, 16.0, 49, 3.9),
+    ];
     return (
         <div>
             <h1>User Profile</h1>
-            <p>Email: {userData.email}</p>
-            <p>Name: {userData.name}</p>
-            <p>Surname: {userData.surname}</p>
-            <p>Last Login: {userData.last_login}</p>
-            <p>Date Joined: {userData.date_joined}</p>
-            <p>Subscriber? {userData.is_subscriber ? "Yes" : "No"}</p>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableBody>
+                        <TableRow>
+                            <TableCell>Email</TableCell>
+                            <TableCell>{userData.email}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell>{userData.name}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Surname</TableCell>
+                            <TableCell>{userData.surname}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Last Login</TableCell>
+                            <TableCell>{userData.last_login}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Date Joined</TableCell>
+                            <TableCell>{userData.date_joined}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Subscriber?</TableCell>
+                            <TableCell>
+                                {userData.is_subscriber ? "Yes" : "No"}
+                            </TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </TableContainer>
 
             <div>
-                <Button variant="outlined" onClick={handleEditAccount}>
+                <Button
+                    variant="outlined"
+                    onClick={handleEditAccount}
+                    style={{ margin: "1rem" }}
+                >
                     Edit Info
                 </Button>
-                <Button variant="text" onClick={handleDeleteAccount}>
+                <Button
+                    variant="text"
+                    onClick={handleDeleteAccount}
+                    style={{ margin: "1rem" }}
+                >
                     Delete Account
                 </Button>
             </div>
 
             {showEditForm ? (
-                <Box>
+                <Paper elevation={10} sx={{ padding: "1rem 2rem 2rem" }}>
+                    <h2>Edit Info</h2>
                     <TextField
                         type="email"
                         label="Email address"
@@ -152,6 +208,7 @@ const UserProfile = (props) => {
                         onChange={(e) => {
                             setFormEmail(e.target.value);
                         }}
+                        margin="normal"
                     />
                     <br />
                     <TextField
@@ -161,6 +218,7 @@ const UserProfile = (props) => {
                         onChange={(e) => {
                             setFormName(e.target.value);
                         }}
+                        margin="normal"
                     />
                     <br />
                     <TextField
@@ -170,12 +228,13 @@ const UserProfile = (props) => {
                         onChange={(e) => {
                             setFormSurname(e.target.value);
                         }}
+                        margin="normal"
                     />
                     <br />
                     <Button variant="contained" onClick={handleSubmitEdit}>
                         Save Changes
                     </Button>
-                </Box>
+                </Paper>
             ) : (
                 <></>
             )}

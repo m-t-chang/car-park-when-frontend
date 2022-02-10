@@ -50,7 +50,12 @@ function App() {
                 user={user}
                 handleLogout={handleLogout}
             />
-            <Container maxWidth="lg" sx={{ padding: 0 }}>
+            <Container
+                maxWidth="lg"
+                sx={{
+                    padding: 0,
+                }}
+            >
                 <Switch>
                     <Route exact path="/">
                         <LandingPage />

@@ -15,6 +15,7 @@ const SignIn = (props) => {
     // upon success, then store the Token
     // if fail, then display an error
     async function handleSubmit(e) {
+        console.log("Sending request...");
         const response = await fetch(
             `${process.env.REACT_APP_BACKEND_URI}/api/token/`,
             {
@@ -43,14 +44,13 @@ const SignIn = (props) => {
     }
 
     useEffect(() => {
-        console.log(props.signedInFlag);
         if (props.signedInFlag) {
             history.push("/dashboard");
         }
     });
 
     return (
-        <div>
+        <div style={{ textAlign: "center" }}>
             <h1>Existing User? Sign In</h1>
             <div>
                 <TextField
@@ -62,7 +62,10 @@ const SignIn = (props) => {
                     onChange={(e) => {
                         setEmailInput(e.target.value);
                     }}
+                    margin="normal"
+                    sx={{ width: "30ch" }}
                 />
+                <br />
                 <TextField
                     type="password"
                     id="pw"
@@ -72,7 +75,10 @@ const SignIn = (props) => {
                     onChange={(e) => {
                         setPwInput(e.target.value);
                     }}
+                    margin="normal"
+                    sx={{ width: "30ch" }}
                 />
+                <br />
                 <Button variant="contained" onClick={handleSubmit}>
                     Sign In
                 </Button>

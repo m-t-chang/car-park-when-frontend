@@ -13,7 +13,7 @@ const Footer = () => {
             }}
         >
             <Grid item>
-                <Typography>Copyright © 2021 Michael T. Chang</Typography>
+                <Typography>Copyright © 2022 Michael T. Chang</Typography>
             </Grid>
         </Grid>
     );

@@ -29,30 +29,11 @@ ChartJS.register(
 const Dashboard = (props) => {
     const [data, setData] = useState(null);
     const [carparkSelection, setCarparkSelection] = useState(null);
-    // const [dataCarparkDetail, setDataCarparkDetail] = useState({});
     const [chartData, setChartData] = useState(false);
-    // const [carparkList, setCarparkList] = useState("");
-
-    const [locationData, setLocationData] = useState([1.3521, 103.8198]); // this is [lat,lon]
-
-    // callback to get user geolocation
-    function getUserLocation() {
-        console.log("Fetching user geolocation...");
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                setLocationData([
-                    position.coords.latitude,
-                    position.coords.longitude,
-                ]);
-            },
-            (error) => {
-                console.log("Error when trying to get geolocation:", error);
-            }
-        );
-    }
 
     useEffect(() => {
         async function getData() {
+            console.log("Sending request...");
             const response = await fetch(
                 `${process.env.REACT_APP_BACKEND_URI}/api/carpark-list/`,
                 {
@@ -72,26 +53,6 @@ const Dashboard = (props) => {
                 );
             } else {
                 setData(myJson);
-
-                // setCarparkList(
-                //     <>
-                //         {JSON.stringify(myJson[0])}
-                //         <ul>
-                //             {myJson.map((elem) => (
-                //                 <li key={elem.id}>
-                //                     <button
-                //                         value={elem.id}
-                //                         onClick={(e) => {
-                //                             setCarparkSelection(e.target.value);
-                //                         }}
-                //                     >
-                //                         {elem.id}
-                //                     </button>
-                //                 </li>
-                //             ))}
-                //         </ul>
-                //     </>
-                // );
             }
         }
 
@@ -102,8 +63,9 @@ const Dashboard = (props) => {
 
     useEffect(() => {
         async function getCarparkDetail() {
+            console.log("Sending request...");
             const response = await fetch(
-                `${process.env.REACT_APP_BACKEND_URI}/api/carpark-detail/${carparkSelection}/`,
+                `${process.env.REACT_APP_BACKEND_URI}/api/carpark-detail/${carparkSelection?.id}/`,
                 {
                     method: "GET",
                     headers: {
@@ -116,21 +78,18 @@ const Dashboard = (props) => {
             console.log("got response:", myJson);
 
             if (myJson.code === "token_not_valid") {
-                // setAuthStatus("sign_in_failed");
                 console.log(
                     "UNEXPECTED ERROR: user should be logged in but app was denied access to API"
                 );
             } else {
-                // setDataCarparkDetail(myJson);
-
                 const labels = myJson.timestamp;
                 setChartData({
                     labels: labels,
                     datasets: [
                         {
-                            label: "My First dataset",
-                            backgroundColor: "rgb(255, 99, 132)",
-                            borderColor: "rgb(255, 99, 132)",
+                            label: "Available Lots",
+                            backgroundColor: "cadetblue",
+                            borderColor: "cadetblue",
                             data: myJson.available_lots,
                         },
                     ],
@@ -143,41 +102,36 @@ const Dashboard = (props) => {
         }
     }, [props, carparkSelection]);
 
-    useEffect(() => {
-        const labels = ["January", "February", "March", "April", "May", "June"];
-        setChartData({
-            labels: labels,
-            datasets: [
-                {
-                    label: "My First dataset",
-                    backgroundColor: "rgb(255, 99, 132)",
-                    borderColor: "rgb(255, 99, 132)",
-                    data: [0, 10, 5, 2, 20, 30, 45],
-                },
-            ],
-        });
-    }, []);
-
     return (
         <div>
             <h1>Data Dashboard</h1>
             {props.signedInFlag ? (
                 <>
-                    <button onClick={getUserLocation}>Locate Me</button>
                     <CarparkMap
-                        userLocation={locationData}
                         carparkData={data}
                         handleMarkerClick={({ e, a, payload }) => {
-                            setCarparkSelection(payload.id);
+                            setCarparkSelection(payload);
                         }}
-                    />
-                    <h3>{carparkSelection}</h3>
-                    <CarparkHourlyAverage
-                        signedInFlag={props.signedInFlag}
-                        tokens={props.tokens}
                         carparkSelection={carparkSelection}
                     />
-                    {chartData && <Line data={chartData} />}{" "}
+                    {carparkSelection ? (
+                        <>
+                            <h3 style={{ color: "darkblue" }}>
+                                {carparkSelection?.development}
+                                {/* {carparkSelection?.lot_type} NOTE THAT THE APP DOESNT ACCOUNT FOR VEHICLE TYPE*/}
+                            </h3>
+                            <h4>Average carpark availability</h4>
+                            <CarparkHourlyAverage
+                                signedInFlag={props.signedInFlag}
+                                tokens={props.tokens}
+                                carparkSelection={carparkSelection}
+                            />
+                            <h4>Detailed availability</h4>
+                            {chartData && <Line data={chartData} />}{" "}
+                        </>
+                    ) : (
+                        <h4>Select a carpark to view more data</h4>
+                    )}
                 </>
             ) : (
                 <div>

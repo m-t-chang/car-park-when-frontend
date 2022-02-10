@@ -29,6 +29,7 @@ const SignUp = () => {
         }
 
         // send the POST request to backend
+        console.log("Sending request...");
         const response = await fetch(
             `${process.env.REACT_APP_BACKEND_URI}/api/user/signup/`,
             {
@@ -53,8 +54,8 @@ const SignUp = () => {
     }
 
     return (
-        <div>
-            <h1>Sign Up Here</h1>
+        <div style={{ textAlign: "center" }}>
+            <h1>New User? Sign Up Here!</h1>
             <TextField
                 type="email"
                 id="email"
@@ -64,7 +65,10 @@ const SignUp = () => {
                 onChange={(e) => {
                     setEmailInput(e.target.value);
                 }}
+                margin="normal"
+                sx={{ width: "30ch" }}
             />
+            <br />
             <TextField
                 type="password"
                 id="pw"
@@ -74,7 +78,10 @@ const SignUp = () => {
                 onChange={(e) => {
                     setPwInput(e.target.value);
                 }}
+                margin="normal"
+                sx={{ width: "30ch" }}
             />
+            <br />
             <TextField
                 type="password"
                 id="pwconf"
@@ -84,7 +91,10 @@ const SignUp = () => {
                 onChange={(e) => {
                     setPwConfInput(e.target.value);
                 }}
+                margin="normal"
+                sx={{ width: "30ch" }}
             />
+            <br />
             <Button variant="contained" onClick={handleSubmit}>
                 Submit
             </Button>
