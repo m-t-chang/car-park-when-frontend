@@ -11,7 +11,7 @@ import {
     Title,
     Tooltip,
 } from "chart.js";
-import { Line, Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 
 import CarparkMap from "../components/CarparkMap";
 import CarparkHourlyAverage from "../components/CarparkHourlyAverage";
