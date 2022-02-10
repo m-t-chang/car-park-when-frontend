@@ -33,10 +33,23 @@ function App() {
 
     useEffect(() => {}, []);
 
+    function handleLogout() {
+        setSignedInFlag(false);
+        setUser({ email: "" });
+        setTokens({
+            access: "INITALSTATE",
+            refresh: "INITIALSTATE",
+        });
+    }
+
     return (
         // <AuthContext.Provider value={tokens}>
         <ThemeProvider theme={theme}>
-            <NavBar signedInFlag={signedInFlag} user={user} />
+            <NavBar
+                signedInFlag={signedInFlag}
+                user={user}
+                handleLogout={handleLogout}
+            />
             <Container maxWidth="lg" sx={{ padding: 0 }}>
                 <Switch>
                     <Route exact path="/">
@@ -65,6 +78,7 @@ function App() {
                             signedInFlag={signedInFlag}
                             tokens={tokens}
                             user={user}
+                            handleLogout={handleLogout}
                         />
                     </Route>
                 </Switch>

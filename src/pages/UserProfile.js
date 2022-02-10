@@ -60,9 +60,18 @@ const UserProfile = (props) => {
                 );
             } else {
                 console.log("Delete user response:", myJson);
+                props.handleLogout();
+                history.push("/");
             }
         }
-        deleteUser();
+
+        if (
+            window.confirm(
+                "We're sorry to see you go! Are you sure you want to delete your account with us? This action cannot be undone."
+            )
+        ) {
+            deleteUser();
+        }
     }
 
     return (

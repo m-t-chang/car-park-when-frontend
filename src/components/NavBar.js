@@ -41,6 +41,7 @@ export default function NavBar(props) {
             <ListItem
                 button
                 onClick={() => {
+                    props.handleLogout();
                     history.push("/signin");
                 }}
             >

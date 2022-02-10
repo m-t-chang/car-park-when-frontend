@@ -25,6 +25,7 @@ const SignUp = () => {
             !emailInput.includes(".")
         ) {
             setValidationMessage("Enter a valid email");
+            return;
         }
 
         // send the POST request to backend
