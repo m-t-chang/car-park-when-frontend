@@ -15,6 +15,11 @@ const Footer = () => {
             <Grid item>
                 <Typography>Copyright © 2022 Michael T. Chang</Typography>
             </Grid>
+            <Grid item>
+                <a href="https://www.vecteezy.com/free-vector/parking-icon">
+                    Parking Icon Vectors by Vecteezy
+                </a>
+            </Grid>
         </Grid>
     );
 };
