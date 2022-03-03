@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Grid } from "@mui/material";
+import { Typography, Grid, Link } from "@mui/material";
 
 const Footer = () => {
     return (
@@ -14,12 +14,14 @@ const Footer = () => {
         >
             <Grid item>
                 <Typography>Copyright © 2022 Michael T. Chang</Typography>
-            </Grid>
-            <Grid item>
-                <a href="https://www.vecteezy.com/free-vector/parking-icon">
+                <Link
+                    href="https://www.vecteezy.com/free-vector/parking-icon"
+                    color="#D3D3D3"
+                >
                     Parking Icon Vectors by Vecteezy
-                </a>
+                </Link>
             </Grid>
+            <Grid item></Grid>
         </Grid>
     );
 };

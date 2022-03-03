@@ -1,6 +1,6 @@
 {
-    "short_name": "Catch the Bus SG",
-    "name": "Catch the Bus SG",
+    "short_name": "Car Park When",
+    "name": "Car Park When",
     "icons": [
         {
             "src": "favicon.ico",
@@ -8,9 +8,9 @@
             "type": "image/x-icon"
         },
         {
-            "src": "logo192.png",
-            "type": "image/png",
-            "sizes": "192x192"
+            "src": "parking_icon_512.jpg",
+            "type": "image/jpg",
+            "sizes": "512x512"
         }
     ],
     "start_url": ".",
