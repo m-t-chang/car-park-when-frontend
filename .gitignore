@@ -77,3 +77,4 @@ typings/
 
 config.js
 .env.local
+*.local
