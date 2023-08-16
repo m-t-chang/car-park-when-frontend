@@ -31,16 +31,23 @@ const LandingPage = (props) => {
                 </p>
                 <Button
                     variant="contained"
+                    onClick={() => history.push("/dashboard")}
+                >
+                    Go to the Dashboard
+                </Button>
+                <p>Create an account to unlock more features.</p>
+                <Button
+                    variant="contained"
                     onClick={() => history.push("/signup")}
                 >
                     Sign Up Now
                 </Button>
-                <p>Existing users can sign in.</p>
+                <p></p>
                 <Button
                     variant="outlined"
                     onClick={() => history.push("/signin")}
                 >
-                    Sign In
+                    Sign In for Existing Users
                 </Button>
             </Paper>
         </div>

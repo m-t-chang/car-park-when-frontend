@@ -105,39 +105,39 @@ const Dashboard = (props) => {
     return (
         <div>
             <h1>Data Dashboard</h1>
-            {props.signedInFlag ? (
-                <>
-                    <CarparkMap
-                        carparkData={data}
-                        handleMarkerClick={({ e, a, payload }) => {
-                            setCarparkSelection(payload);
-                        }}
-                        carparkSelection={carparkSelection}
-                    />
-                    {carparkSelection ? (
-                        <>
-                            <h3 style={{ color: "darkblue" }}>
-                                {carparkSelection?.development}
-                                {/* {carparkSelection?.lot_type} NOTE THAT THE APP DOESNT ACCOUNT FOR VEHICLE TYPE*/}
-                            </h3>
-                            <h4>Average carpark availability</h4>
-                            <CarparkHourlyAverage
-                                signedInFlag={props.signedInFlag}
-                                tokens={props.tokens}
-                                carparkSelection={carparkSelection}
-                            />
-                            <h4>Detailed availability</h4>
-                            {chartData && <Line data={chartData} />}{" "}
-                        </>
-                    ) : (
-                        <h4>Select a carpark to view more data</h4>
-                    )}
-                </>
-            ) : (
+            {!props.signedInFlag && (
                 <div>
-                    Please <Link to="/signin">sign in</Link> to view data
+                    Please <Link to="/signin">sign in</Link> to unlock more
+                    features.
                 </div>
             )}
+            <>
+                <CarparkMap
+                    carparkData={data}
+                    handleMarkerClick={({ e, a, payload }) => {
+                        setCarparkSelection(payload);
+                    }}
+                    carparkSelection={carparkSelection}
+                />
+                {carparkSelection ? (
+                    <>
+                        <h3 style={{ color: "darkblue" }}>
+                            {carparkSelection?.development}
+                            {/* {carparkSelection?.lot_type} NOTE THAT THE APP DOESNT ACCOUNT FOR VEHICLE TYPE*/}
+                        </h3>
+                        <h4>Average carpark availability</h4>
+                        <CarparkHourlyAverage
+                            signedInFlag={props.signedInFlag}
+                            tokens={props.tokens}
+                            carparkSelection={carparkSelection}
+                        />
+                        <h4>Detailed availability</h4>
+                        {chartData && <Line data={chartData} />}{" "}
+                    </>
+                ) : (
+                    <h4>Select a carpark to view more data</h4>
+                )}
+            </>
         </div>
     );
 };
