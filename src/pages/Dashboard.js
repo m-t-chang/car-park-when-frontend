@@ -36,7 +36,7 @@ const Dashboard = (props) => {
             console.log("Sending request...");
             try {
                 const response = await fetch(
-                    `${process.env.REACT_APP_BACKEND_URI}/api/carpark-list/`,
+                    `${process.env.REACT_APP_BACKEND_URI}/carpark-list/`,
                     {
                         method: "GET",
                         headers: {
@@ -67,7 +67,7 @@ const Dashboard = (props) => {
         async function getCarparkDetail() {
             console.log("Sending request...");
             const response = await fetch(
-                `${process.env.REACT_APP_BACKEND_URI}/api/carpark-detail/${carparkSelection?.id}/`,
+                `${process.env.REACT_APP_BACKEND_URI}/carpark-detail/${carparkSelection?.id}/`,
                 {
                     method: "GET",
                     headers: {

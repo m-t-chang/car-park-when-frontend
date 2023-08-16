@@ -17,7 +17,7 @@ const SignIn = (props) => {
     async function handleSubmit(e) {
         console.log("Sending request...");
         const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URI}/api/token/`,
+            `${process.env.REACT_APP_BACKEND_URI}/token/`,
             {
                 method: "POST",
                 headers: {

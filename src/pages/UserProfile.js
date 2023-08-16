@@ -28,7 +28,7 @@ const UserProfile = (props) => {
         async function getUserData() {
             console.log("Sending request...");
             const response = await fetch(
-                `${process.env.REACT_APP_BACKEND_URI}/api/user/info/`,
+                `${process.env.REACT_APP_BACKEND_URI}/user/info/`,
                 {
                     method: "GET",
                     headers: {
@@ -64,7 +64,7 @@ const UserProfile = (props) => {
         async function submitEdits() {
             console.log("Sending request...");
             const response = await fetch(
-                `${process.env.REACT_APP_BACKEND_URI}/api/user/info/`,
+                `${process.env.REACT_APP_BACKEND_URI}/user/info/`,
                 {
                     method: "PUT",
                     headers: {
@@ -99,7 +99,7 @@ const UserProfile = (props) => {
         async function deleteUser() {
             console.log("Sending request...");
             const response = await fetch(
-                `${process.env.REACT_APP_BACKEND_URI}/api/user/info/`,
+                `${process.env.REACT_APP_BACKEND_URI}/user/info/`,
                 {
                     method: "DELETE",
                     headers: {
