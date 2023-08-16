@@ -34,31 +34,33 @@ const Dashboard = (props) => {
     useEffect(() => {
         async function getData() {
             console.log("Sending request...");
-            const response = await fetch(
-                `${process.env.REACT_APP_BACKEND_URI}/api/carpark-list/`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${props.tokens?.access}`,
-                    },
-                }
-            );
-            const myJson = await response.json();
-            console.log("got response:", myJson);
-
-            if (myJson.code === "token_not_valid") {
-                console.log(
-                    "UNEXPECTED ERROR: user should be logged in but app was denied access to API"
+            try {
+                const response = await fetch(
+                    `${process.env.REACT_APP_BACKEND_URI}/api/carpark-list/`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${props.tokens?.access}`,
+                        },
+                    }
                 );
-            } else {
-                setData(myJson);
+                const myJson = await response.json();
+                console.log("got response:", myJson);
+
+                if (myJson.code === "token_not_valid") {
+                    console.log(
+                        "UNEXPECTED ERROR: user should be logged in but app was denied access to API"
+                    );
+                } else {
+                    setData(myJson);
+                }
+            } catch (err) {
+                console.log(err.message);
             }
         }
 
-        if (props.signedInFlag) {
-            getData();
-        }
+        getData();
     }, [props]);
 
     useEffect(() => {
@@ -97,7 +99,7 @@ const Dashboard = (props) => {
             }
         }
 
-        if (props.signedInFlag && carparkSelection) {
+        if (carparkSelection) {
             getCarparkDetail();
         }
     }, [props, carparkSelection]);
