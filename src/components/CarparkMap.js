@@ -55,7 +55,7 @@ const CarparkMap = (props) => {
                         <Marker
                             key={elem.id}
                             width={30}
-                            anchor={[elem.location_lat, elem.location_lon]}
+                            anchor={[elem.lat, elem.lon]}
                             payload={elem}
                             color={
                                 props.carparkSelection?.id === elem.id
@@ -63,11 +63,9 @@ const CarparkMap = (props) => {
                                     : "cadetblue"
                             }
                             onMouseOver={({ anchor, payload }) => {
-                                console.log(
-                                    `${payload.development} | ${payload.id}`
-                                );
+                                console.log(`${payload.name} | ${payload.id}`);
                                 setOverlayAnchor(anchor);
-                                setOverlayText(payload.development);
+                                setOverlayText(payload.name);
                                 setShowOverlay(true);
                             }}
                             onMouseOut={({ anchor, payload }) => {
